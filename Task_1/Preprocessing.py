@@ -26,6 +26,9 @@ import matplotlib.pyplot as plt
 #     download=True
 # )
 
+class MNISTPreprocessing:
+
+
 
 #Image transformation
 
@@ -40,7 +43,7 @@ transform = Compose([
 
 # Load MNIST dataset, (takes raw data from dir 
 #                     ,if true then take train data else take test data
-#                     ,takes PIL image and return transfromed
+#                     ,takes PIL image and return transformed
 #                     ,if true then download the data if not already downloaded)
 train_dataset = datasets.MNIST(
     root='data',
@@ -56,8 +59,15 @@ test_dataset = datasets.MNIST(
     download=False
 )
 
-# Visualize a sample image from the training dataset
+# Visualize a sample image 
+
 sample_img, sample_label = train_dataset[0]
 plt.imshow(sample_img.squeeze(), cmap='gray')
 plt.title(f'Number: {sample_label}')
 plt.show()
+
+# sample_img, sample_label = test_dataset[0]
+# plt.imshow(sample_img.squeeze(), cmap='gray')
+# plt.title(f'Number: {sample_label}')
+# plt.show()
+
