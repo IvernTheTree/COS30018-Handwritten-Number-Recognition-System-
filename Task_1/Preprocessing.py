@@ -10,64 +10,53 @@ import matplotlib.pyplot as plt
 # 4. Visualize a sample image from the training dataset.
 
 
+class MNISTPreprocessor:
+    def __init__(self, resize_shape=None, binarize_threshold=0.5):
+        self.train_dataset = None
+        self.test_dataset = None
+        self.transform = None
+        self.binarize_threshold = binarize_threshold
+        self.resize_shape = resize_shape
+        self.transform = self.create_transform()
 
-# Download the MNIST dataset, dont run again if already downloaded
-# train_dataset = datasets.MNIST(
-#     root='data',
-#     train=True,
-#     transform=ToTensor(),
-#     download=True
-# )
+    
+    #Image transformation
+    def create_transform(self):
+        transform_list = []
+        if self.resize_shape:
+            transform_list.append(Resize(self.resize_shape))
+        transform_list.append(ToTensor())
+        transform_list.append(Lambda(lambda x: (x > self.binarize_threshold).float()))
+        return Compose(transform_list)
 
-# test_dataset = datasets.MNIST(
-#     root='data',
-#     train=False,
-#     transform=ToTensor(),
-#     download=True
-# )
+    # Download the MNIST dataset, dont run again if already downloaded
+    def load_datasets(self, download=False, data_dir='data'):
+        self.train_dataset = datasets.MNIST(
+            root='data',
+            train=True,
+            transform=self.transform,
+            download=True
+        )
 
-class MNISTPreprocessing:
+        self.test_dataset = datasets.MNIST(
+            root='data',
+            train=False,
+            transform=self.transform,
+            download=True
+        )
+
+    # Visualize a sample image from the dataset
+    # train = True for training dataset, False for test dataset
+    def visualize_sample(self, train=True, index=0):
+        dataset = self.train_dataset if train else self.test_dataset
+        sample_img, sample_label = dataset[index]
+        plt.imshow(sample_img.squeeze(), cmap='gray')
+        plt.title(f'Label: {sample_label}')
+        plt.show()
+        
 
 
-
-#Image transformation
-
-#resize = Resize((28, 28))  # height, width. if needed
-
-binarize = Lambda(lambda x: (x > 0.5).float())
-
-transform = Compose([
-    ToTensor(),
-    binarize  
-])
-
-# Load MNIST dataset, (takes raw data from dir 
-#                     ,if true then take train data else take test data
-#                     ,takes PIL image and return transformed
-#                     ,if true then download the data if not already downloaded)
-train_dataset = datasets.MNIST(
-    root='data',
-    train=True,
-    transform=transform,
-    download=False         
-)
-
-test_dataset = datasets.MNIST(
-    root='data',
-    train=False,
-    transform=transform,
-    download=False
-)
-
-# Visualize a sample image 
-
-sample_img, sample_label = train_dataset[0]
-plt.imshow(sample_img.squeeze(), cmap='gray')
-plt.title(f'Number: {sample_label}')
-plt.show()
-
-# sample_img, sample_label = test_dataset[0]
-# plt.imshow(sample_img.squeeze(), cmap='gray')
-# plt.title(f'Number: {sample_label}')
-# plt.show()
-
+mnist_processor = MNISTPreprocessor(resize_shape=(28,28))
+mnist_processor.load_datasets(download=False)
+mnist_processor.visualize_sample(train=True, index=0)
+mnist_processor.visualize_sample(train=False, index=0)
