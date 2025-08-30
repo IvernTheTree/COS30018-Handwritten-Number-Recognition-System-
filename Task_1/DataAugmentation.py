@@ -14,7 +14,7 @@ transform_train = transforms.Compose([
     transforms.Normalize((0.5,), (0.5,))  # Normalize to mean=0.5, std=0.5
 ])
 
-# For test/validation set we usually don’t augment
+# For test/validation set we usually don’t augmentt
 transform_test = transforms.Compose([
     transforms.Resize((28, 28)),
     transforms.Grayscale(num_output_channels=1),

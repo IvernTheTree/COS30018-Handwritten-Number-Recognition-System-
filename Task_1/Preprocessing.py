@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 # 1. Import necessary libraries.
 # 2. Define a transformation to convert images to binary format.
 # 3. Load the MNIST dataset with the defined transformation.
-# 4. Visualize a sample image from the training dataset.
+# 4. Visualize a sample image from the training dataset. 
 
 
 class MNISTPreprocessor:

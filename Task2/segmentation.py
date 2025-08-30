@@ -15,7 +15,7 @@ def create_segments(mnist_dataset, num_digits=3):
     # For each 'pick' of the 3 indicies we get the image and the label and add it to the respective lists
     for idx in indicies:
         img, label = mnist_dataset[idx]
-        # Gets rid of colour channels in img and converts to numpy array
+        # Gets rid of colour channels in img and converts to numpy array 
         img_np = img.squeeze().numpy()
         digits.append(img_np)
         labels.append(label)

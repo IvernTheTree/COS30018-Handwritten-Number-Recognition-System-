@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # I just want 0..1 values
 def normalize_0_1(imgs):
-    imgs = imgs.astype(np.float32)       # make sure division works as floats
+    imgs = imgs.astype(np.float32)       # make sure division works as floats 
     imgs = imgs / 255.0                  # scale to 0..1
     return imgs
 
