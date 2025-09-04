@@ -8,12 +8,20 @@ from Task_1.Preprocessing import MNISTPreprocessor
 #Run while being root dir
 #python -m Task2.Clustering
 
+# Function to estimate number of digits using connected components
+def estimate_digit_count(image):
+    structure = np.ones((3, 3), dtype=int)  # 8-connectivity
+    labeled, ncomponents = label(image > 0, structure)
+    return ncomponents
+
 # Function to segment digits in an image using K-Means clustering
 #Takes in a binary image and number of clusters (default 2)
 #and seperates the digits into clusters using K-Means
-def segment_digits_kmeans(image, n_clusters=2):
+def segment_digits_kmeans(image, n_clusters=None):
+    if n_clusters is None:
+        n_clusters = estimate_digit_count(image)
+        print(f"Estimated digit count: {n_clusters}")
 
-    #Finds digit pixel coordinates, applies K-Means
     coords = np.column_stack(np.where(image > 0))
     kmeans = KMeans(n_clusters=n_clusters, random_state=0).fit(coords)
     labels = kmeans.labels_
@@ -25,7 +33,6 @@ def segment_digits_kmeans(image, n_clusters=2):
     plt.legend()
     plt.title('K-Means Clustering of Digit Pixels')
 
-    #placeholder for number so like each cluster is a digit 
     masks = []
     for i in range(n_clusters):
         mask = np.zeros_like(image)
