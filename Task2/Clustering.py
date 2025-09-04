@@ -4,6 +4,10 @@ from sklearn.cluster import KMeans
 from torchvision import datasets, transforms
 from Task_1.Preprocessing import MNISTPreprocessor
 
+
+#Run while being root dir
+#python -m Task2.Clustering
+
 # Function to segment digits in an image using K-Means clustering
 #Takes in a binary image and number of clusters (default 2)
 #and seperates the digits into clusters using K-Means
@@ -41,3 +45,9 @@ img2 = img2.squeeze().numpy()
 
 #combine the two images
 multi_digit_image = np.concatenate((img, img2), axis=1)
+
+masks = segment_digits_kmeans(multi_digit_image, n_clusters=2)
+for i, mask in enumerate(masks):
+    plt.imshow(mask, cmap='gray')
+    plt.title(f'Segmented Digit {i+1}')
+    plt.show()
