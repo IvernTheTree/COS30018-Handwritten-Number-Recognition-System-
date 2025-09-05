@@ -1,12 +1,13 @@
-import numpy as np 
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from torchvision import datasets, transforms
 from Task_1.Preprocessing import MNISTPreprocessor
+from scipy.ndimage import label  # Added missing import
 
 
-#Run while being root dir
-#python -m Task2.Clustering
+# Run from the root directory:
+# python -m Task2.Clustering
 
 # Function to estimate number of digits using connected components
 def estimate_digit_count(image):
@@ -15,8 +16,8 @@ def estimate_digit_count(image):
     return ncomponents
 
 # Function to segment digits in an image using K-Means clustering
-#Takes in a binary image and number of clusters (default 2)
-#and seperates the digits into clusters using K-Means
+# Takes in a binary image and number of clusters (default 2)
+# Separates the digits into clusters using K-Means
 def segment_digits_kmeans(image, n_clusters=None):
     if n_clusters is None:
         n_clusters = estimate_digit_count(image)
@@ -41,16 +42,16 @@ def segment_digits_kmeans(image, n_clusters=None):
     return masks
 
 
-mnist_processor = MNISTPreprocessor(resize_shape=(28,28), binarize_threshold=0.5)
+mnist_processor = MNISTPreprocessor(resize_shape=(28, 28), binarize_threshold=0.5)
 mnist_processor.load_datasets(download=False)
 
-#Get a sample image from the training dataset
+# Get two sample images from the training dataset
 img, label = mnist_processor.train_dataset[0]
-img = img.squeeze().numpy()  
+img = img.squeeze().numpy()
 img2, label2 = mnist_processor.train_dataset[1]
 img2 = img2.squeeze().numpy()
 
-#combine the two images
+# Combine the two images side by side
 multi_digit_image = np.concatenate((img, img2), axis=1)
 
 masks = segment_digits_kmeans(multi_digit_image, n_clusters=2)
