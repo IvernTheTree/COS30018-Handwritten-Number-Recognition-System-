@@ -9,7 +9,7 @@ from scipy.ndimage import label  # Added missing import
 # Run from the root directory:
 # python -m Task2.Clustering
 
-# Function to estimate number of digits using connected components
+# Function to estimate number of digits using connected components, count number by finding connected reagions
 def estimate_digit_count(image):
     structure = np.ones((3, 3), dtype=int)  # 8-connectivity
     labeled, ncomponents = label(image > 0, structure)
