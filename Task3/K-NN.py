@@ -46,4 +46,3 @@ if __name__ == "__main__":
 
     print("True labels:     ", true_labels)
     print("Predicted labels:", predicted_labels)
-    #Check commit
