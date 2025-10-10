@@ -34,9 +34,9 @@ if __name__ == "__main__":
 
     #Reduce training set size for speed
     N = 5000 
-    # Prepare training data
-    X_train = np.array([mnist_processor.train_dataset[i][0].squeeze().numpy().reshape(-1) for i in range(len(mnist_processor.train_dataset))])
-    y_train = np.array([mnist_processor.train_dataset[i][1] for i in range(len(mnist_processor.train_dataset))])
+    # Prepare training data (limit to N samples)
+    X_train = np.array([mnist_processor.train_dataset[i][0].squeeze().numpy().reshape(-1) for i in range(N)])
+    y_train = np.array([mnist_processor.train_dataset[i][1] for i in range(N)])
 
     # Example: Use first 5 test digits as X_test
     X_test = np.array([mnist_processor.test_dataset[i][0].squeeze().numpy().reshape(-1) for i in range(5)])
