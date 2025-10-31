@@ -33,6 +33,8 @@ if __name__ == "__main__":
 
     #Reduce training set size for speed
     N = 5000 
+
+
     # Prepare training data (limit to N samples)
     X_train = np.array([mnist_processor.train_dataset[i][0].squeeze().numpy().reshape(-1) for i in range(N)])
     y_train = np.array([mnist_processor.train_dataset[i][1] for i in range(N)])
@@ -40,6 +42,23 @@ if __name__ == "__main__":
     # Example: Use first 5 test digits as X_test
     X_test = np.array([mnist_processor.test_dataset[i][0].squeeze().numpy().reshape(-1) for i in range(5)])
     true_labels = [mnist_processor.test_dataset[i][1] for i in range(5)]
+
+    # Predict using K-NN
+    predicted_labels = faster_KNN(X_test, X_train, y_train, k=1)
+
+    print("True labels:     ", true_labels)
+    print("Predicted labels:", predicted_labels)
+
+    # Test specific digits (5 and 7)
+    test_indices = []
+    for i in range(len(mnist_processor.test_dataset)):
+        if mnist_processor.test_dataset[i][1] in [5, 7]:
+            test_indices.append(i)
+            if len(test_indices) >= 2:  # Get first occurrence of each
+                break
+    
+    X_test = np.array([mnist_processor.test_dataset[i][0].squeeze().numpy().reshape(-1) for i in test_indices])
+    true_labels = [mnist_processor.test_dataset[i][1] for i in test_indices]
 
     # Predict using K-NN
     predicted_labels = faster_KNN(X_test, X_train, y_train, k=1)
