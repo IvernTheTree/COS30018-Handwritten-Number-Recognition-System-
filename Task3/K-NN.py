@@ -1,7 +1,8 @@
 import numpy as np
 from scipy import spatial
+import sys
+import os
 from Task_1.Preprocessing import MNISTPreprocessor
-
 
 # Run from the root directory:
 # python -m Task3.K-NN
